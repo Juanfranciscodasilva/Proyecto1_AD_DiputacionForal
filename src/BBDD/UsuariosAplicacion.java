@@ -1,0 +1,6 @@
+package BBDD;
+
+public class UsuariosAplicacion {
+    /*TODO MONTAR METODOS PARA LEER Y ESCRIBIR SOBRE UN .DAT DE USUARIOS 
+    DE LA APLICACION (LOGIN Y REGISTER)*/
+}
