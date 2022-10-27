@@ -6,6 +6,7 @@
 package Ventanas;
 
 //import Clases.Usuario;
+import Clases.Usuario;
 import diputacionAlava.Main;
 import javax.swing.JOptionPane;
 
@@ -15,8 +16,6 @@ import javax.swing.JOptionPane;
  */
 public class IniciarSesion extends javax.swing.JFrame {
 
-   int opcion=0;
-   //Usuario u;
     public IniciarSesion() {
         initComponents();
         setLocationRelativeTo(null);
@@ -146,7 +145,8 @@ public class IniciarSesion extends javax.swing.JFrame {
 
     private void AccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccederActionPerformed
         incorrectUser.setVisible(false);
-        if(tUsuario.getText().equals("admin") && tPass.getText().equals("admin")){
+        Usuario usu = new Usuario(tUsuario.getText(),tPass.getText());
+        if(Main.iniciarSesion(usu)){
             JOptionPane.showMessageDialog(null, "Has iniciado");
         }else{
             incorrectUser.setVisible(true);
@@ -174,12 +174,7 @@ public class IniciarSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_AccederActionPerformed
 
     private void RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarActionPerformed
-         if(opcion==0){
-            JOptionPane.showMessageDialog(this, "Deberá iniciar sesión con una cuenta con permisos de jefe/administrador");
-           //Main.AbrirIniciarSesionAdmin(1);
-        } else{
-           // Main.ReiniciarIniciarSesion();
-        }  
+        Main.abrirRegistrarUsuario();  
     }//GEN-LAST:event_RegistrarActionPerformed
 
     private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
@@ -222,52 +217,8 @@ public class IniciarSesion extends javax.swing.JFrame {
         });
     }
     
-    public void IniciarAdmin(int op){
-        opcion=op;
-        Registrar.setText("Cancelar");
-        eUsuario.setText("Admin:");
-        //Permisos.setVisible(false);
-    }
-    
-    public void AccederOpcion0(){
-         if(ComprobarPass()){
-                //Main.IniciarAplicacion();
-            }
-    }
-    
-    public void AccederOpcion1(){
-            if(ComprobarAdmin()&&ComprobarPass()){
-                //Main.AbrirRegistrarUsuario();
-             }
-    }
-    
-    public void AccederOpcion2(){
-        if(ComprobarAdmin()&&ComprobarPass()){
-                //Main.AbrirDarPermisos();
-            }
-    }
-
-    public boolean ComprobarPass(){
-        /*if(!u.getPass().equals(passEncriptada)){
-            NoPass.setVisible(true);
-             return false;
-        }else{
-            NoPass.setVisible(false);
-            return true;
-        }*/
-        return false;
-    }
-    
-    public boolean ComprobarAdmin(){
-        /*if(u.isAdmin()){
-            NoUsuario.setVisible(false);
-            return true;
-        }else{
-            NoUsuario.setText("*Usuario no admin");
-            NoUsuario.setVisible(true);
-            return false;
-         } */
-        return false;
+    public void setUsuario(String usuario){
+        tUsuario.setText(usuario);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
