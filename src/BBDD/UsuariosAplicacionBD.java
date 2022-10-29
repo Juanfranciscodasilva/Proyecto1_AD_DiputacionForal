@@ -8,10 +8,11 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UsuariosAplicacion {
-    /*TODO MONTAR METODOS PARA LEER Y ESCRIBIR SOBRE UN .DAT DE USUARIOS 
-    DE LA APLICACION (LOGIN Y REGISTER)*/
+public class UsuariosAplicacionBD {
+
     public static File bdUsuarios = null;
     
     public static Response iniciarSesion(Usuario usu){
@@ -43,7 +44,7 @@ public class UsuariosAplicacion {
             }
         }catch(Exception ex){
             respuesta.setCorrecto(false);
-            respuesta.setMensajeError("Ha ocurrido un error al iniciar sesión. Intentalo de nuevo.");
+            respuesta.setMensajeError("Ha ocurrido un error al crear el usuario. Intentalo de nuevo.");
             return respuesta;
         }
         return respuesta;
@@ -52,7 +53,6 @@ public class UsuariosAplicacion {
     public static void instanciarFichero() throws Exception{
         try{
             bdUsuarios = new File("usuarios.dat");
-            System.out.println(bdUsuarios.getAbsolutePath());
         }catch(Exception ex){
             throw ex;
         }
@@ -102,11 +102,32 @@ public class UsuariosAplicacion {
     
     public static void insertarUsuario(Usuario usu) throws Exception{
         try {
+            List<Usuario> usuarios = getListaUsuariosFromBD();
             FileOutputStream fileout = new FileOutputStream(bdUsuarios);
             ObjectOutputStream objOS = new ObjectOutputStream(fileout);
-            objOS.writeObject(usu);
+            usuarios.add(usu);
+            for(Usuario u : usuarios){
+                objOS.writeObject(u);
+            }
         } catch (Exception e) {
             throw e;
+        }
+    }
+    
+    public static List<Usuario> getListaUsuariosFromBD() throws Exception{
+        try{
+            List<Usuario> usuarios = new ArrayList<>();
+            if(bdUsuarios.exists()){
+                FileInputStream input = new FileInputStream(bdUsuarios);
+                ObjectInputStream objIS = new ObjectInputStream(input);
+                while(input.available() != 0){
+                    Usuario usuario = (Usuario)objIS.readObject();
+                    usuarios.add(usuario);
+                }
+            }
+            return usuarios;
+        }catch(Exception ex){
+            throw ex;
         }
     }
 }
