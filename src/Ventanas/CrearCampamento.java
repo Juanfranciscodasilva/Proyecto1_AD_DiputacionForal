@@ -36,6 +36,7 @@ public class CrearCampamento extends javax.swing.JFrame {
         NoCapacidad.setVisible(false);
         this.opcion = opcion;
         this.c = camp;
+        AjustarVentanaOpcion();
     }
     
 
@@ -46,7 +47,7 @@ public class CrearCampamento extends javax.swing.JFrame {
         jCalendar1 = new com.toedter.calendar.JCalendar();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
-        jLabel1 = new javax.swing.JLabel();
+        tTitulo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -69,9 +70,9 @@ public class CrearCampamento extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Crear Campamento");
+        tTitulo.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        tTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tTitulo.setText("Modificar Campamento");
 
         jLabel2.setText("Nombre:");
 
@@ -124,12 +125,9 @@ public class CrearCampamento extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(84, 84, 84)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(NoNombre)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(NoLugar)
-                        .addContainerGap(238, Short.MAX_VALUE))))
+                    .addComponent(NoNombre)
+                    .addComponent(NoLugar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -159,13 +157,13 @@ public class CrearCampamento extends javax.swing.JFrame {
                                     .addComponent(tLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(tNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -226,7 +224,10 @@ public class CrearCampamento extends javax.swing.JFrame {
             
             Response respuesta = null;
             if(this.opcion == 1){
-                //TODO MANDAR A MODIFICAR
+                respuesta = Main.ModificarCampamento(c);
+                if(respuesta.isCorrecto()){
+                    JOptionPane.showMessageDialog(null, "Se ha modificado el campamento correctamente.");
+                }
             }else{
                 respuesta = Main.insertarCampamento(c);
                 if(respuesta.isCorrecto()){
@@ -243,25 +244,6 @@ public class CrearCampamento extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado. Vuelve a intentarlo.");
             }
         }
-        /*if(opcion==0){
-            try {
-                if(CrearCampamento(0)){
-                   Main.InsertarNuevoCampamento(c);
-                   JOptionPane.showMessageDialog(this,"Campamento creado con éxito"); 
-                }
-            } catch (Exception e) {
-                System.out.println("Ha ocurrido un error"+e.getMessage());
-            }
-        }else if(opcion==1){
-            try {
-                if(CrearCampamento(1) && JOptionPane.showConfirmDialog(this, "¿Estás seguro de querer modificar este campamento?")==0){
-                    Main.ModificarTablaCampamentos(c);
-                    JOptionPane.showMessageDialog(this,"Campamento modificado con éxito");
-                }
-            } catch (Exception e) {
-                System.out.println("Ha ocurrido un error"+e.getMessage());
-            }
-        }*/
     }//GEN-LAST:event_AceptarModificarActionPerformed
 
     public static void main(String args[]) {
@@ -366,30 +348,40 @@ public class CrearCampamento extends javax.swing.JFrame {
            return false;
        }
     }
+    
+    public void AjustarVentanaOpcion(){
+        if(opcion == 1){
+            tTitulo.setText("Modificar Campamento");
+            RellenarDatosDelCampamento();
+        }else{
+            tTitulo.setText("Crear Campamento");
+        }
+    }
+    
+    public void RellenarDatosDelCampamento(){
+        if(c != null){
+            tNombre.setText(c.getNombre());
+            tLugar.setText(c.getLugar());
+            tFechaInicio.setDate(c.getFechaI());
+            tFechaFin.setDate(c.getFechaF());
+            tCapacidad.setText(String.valueOf(c.getCapacidad()));
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AceptarModificar;
     private javax.swing.JLabel NoCapacidad;
     private javax.swing.JLabel NoFechaF;
     private javax.swing.JLabel NoFechaI;
-    private javax.swing.JLabel NoFechaI1;
-    private javax.swing.JLabel NoFechaI2;
     private javax.swing.JLabel NoLugar;
-    private javax.swing.JLabel NoLugar1;
-    private javax.swing.JLabel NoLugar2;
     private javax.swing.JLabel NoNombre;
     private javax.swing.JButton bCancelar;
     private com.toedter.calendar.JCalendar jCalendar1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextField tCapacidad;
@@ -397,5 +389,6 @@ public class CrearCampamento extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser tFechaInicio;
     private javax.swing.JTextField tLugar;
     private javax.swing.JTextField tNombre;
+    private javax.swing.JLabel tTitulo;
     // End of variables declaration//GEN-END:variables
 }

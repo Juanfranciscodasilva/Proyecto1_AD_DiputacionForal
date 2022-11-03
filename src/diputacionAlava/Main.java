@@ -10,7 +10,10 @@ import Ventanas.IniciarSesion;
 import Ventanas.RegistrarUsuario;
 import Ventanas.VPrincipal;
 import Ventanas.VerModificarEliminarCampamento;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 public class Main {
     private static IniciarSesion vLogin;
@@ -55,7 +58,15 @@ public class Main {
     
     public static void entrarACreacionDeCampamento(){
         vPrincipal.setVisible(false);
+        vPrincipal.dispose();
         vCrearModificarCampamento = new CrearCampamento(0,new Campamento());
+        vCrearModificarCampamento.setVisible(true);
+    }
+    
+    public static void entrarAModificacionDeCampamento(Campamento camp){
+        vVerModificarEliminarCamp.setVisible(false);
+        vVerModificarEliminarCamp.dispose();
+        vCrearModificarCampamento = new CrearCampamento(1,camp);
         vCrearModificarCampamento.setVisible(true);
     }
     
@@ -63,11 +74,24 @@ public class Main {
         vCrearModificarCampamento.setVisible(false);
         vCrearModificarCampamento.dispose();
         if(opcion==1){
-            //TODO ventana de modificar anterior desde la que se selecciona el campamento
-            //mec.setVisible(true);
+            entrarVerModificarEliminarCamp(1);
         }else{
             vPrincipal = new VPrincipal();
             vPrincipal.setVisible(true);
+        }
+    }
+    
+    public static void entrarVerModificarEliminarCamp(int opcion){
+        try{
+            List<Campamento> campamentos = CampamentosBD.getAllCampamentos();
+            if(vPrincipal != null){
+                vPrincipal.setVisible(false);
+                vPrincipal.dispose();
+            }
+            vVerModificarEliminarCamp = new VerModificarEliminarCampamento(opcion, campamentos);
+            vVerModificarEliminarCamp.setVisible(true);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error al abrir la ventana. Intentalo de nuevo.");
         }
     }
     
@@ -118,19 +142,11 @@ public class Main {
         }
     }
     
-    public static JComboBox<String> RellenarComboCamp(JComboBox combo) throws Exception{
-        /*combo.removeAllItems();
-        combo.addItem("-----Elegir campamento-----");
-            try{
-             for(int x=0;x<campamentos.size();x++){
-             String nombre = campamentos.get(x).getNombre();
-             combo.addItem(nombre);
-             combo.add
-             }
-         }catch(Exception e){
-                     System.out.println("ha ocurrido un error "+ e.getMessage());
-                     } 
-         return combo;   */
-        return null;
+    public static Response EliminarCampamento(Campamento camp){
+        return CampamentosBD.eliminarCampamento(camp);
+    }
+    
+    public static Response ModificarCampamento(Campamento camp){
+        return CampamentosBD.modificarCampamento(camp);
     }
 }

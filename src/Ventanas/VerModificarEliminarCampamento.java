@@ -1,11 +1,13 @@
 package Ventanas;
 
 import Clases.Campamento;
+import Clases.Response;
 import diputacionAlava.Main;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class VerModificarEliminarCampamento extends javax.swing.JFrame {
     private Campamento camp;
@@ -158,19 +160,17 @@ public class VerModificarEliminarCampamento extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelarCerrarActionPerformed
 
     private void bEliminarModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarModificarActionPerformed
-        /*if(opcion==0){
-            try{
-                if(JOptionPane.showConfirmDialog(this, "¿Estás seguro de querer eliminar este campamento?")==0){
-                    Main.EliminarCamp(camp);
-                    JOptionPane.showMessageDialog(this, "campamento eliminado con éxito");
-                    JOptionPane.showMessageDialog(this, "Eliminadas todas las personas que no tienen mas campamentos");
-                }
-            }catch(Exception e){
-                System.out.println("Ha ocurrido un error al intentar eliminar este campamento "+e.getMessage());
-            } 
+        if(this.opcion==0){
+            Response respuesta = Main.EliminarCampamento(camp); 
+            if(!respuesta.isCorrecto()){
+                JOptionPane.showMessageDialog(null, respuesta.getMensajeError());
+            }else{
+                JOptionPane.showMessageDialog(null, "Se ha eliminado el campamento correctamente.");
+                Main.cerrarVerModificarEliminarCamp();
+            }
         }else if(opcion==1){
-                 Main.ModificarCamp(camp);
-        }*/
+            Main.entrarAModificacionDeCampamento(camp);
+        }
     }//GEN-LAST:event_bEliminarModificarActionPerformed
 
     private void cbNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbNombreActionPerformed
@@ -243,6 +243,15 @@ public class VerModificarEliminarCampamento extends javax.swing.JFrame {
             try{
                 for(Campamento camp : this.listaCamp){
                     String nombre = camp.getNombre();
+                    String nombreOriginal = nombre;
+                    int countRepetido = 0;
+                    for(int x = 0;x<cbNombre.getItemCount();x++){
+                        String item = cbNombre.getItemAt(x);
+                        if(item.equalsIgnoreCase(nombre)){
+                            nombre = nombreOriginal+" ("+countRepetido+")";
+                            countRepetido++;
+                        }
+                    }
                     cbNombre.addItem(nombre);
                 }
             }catch(Exception e){

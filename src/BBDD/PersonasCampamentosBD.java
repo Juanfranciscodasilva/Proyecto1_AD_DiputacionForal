@@ -2,17 +2,16 @@ package BBDD;
 
 import Clases.Campamento;
 import Clases.Response;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class CampamentosBD {
-    public static File bdCampamentos = null;
+public class PersonasCampamentosBD {
+    public static RandomAccessFile bdPersonasCampamentos = null;
     
     public static Response registrarCampamento(Campamento camp){
         Response respuesta = new Response();
@@ -28,52 +27,66 @@ public class CampamentosBD {
         return respuesta;
     }
     
-    public static Response eliminarCampamento(Campamento camp){
+    public static Response eliminarRelacionByCampamentoId(int idCampamento){
         Response respuesta = new Response();
         try{
             instanciarFichero();
-            //TODO eliminar la relacion de la gente que esté inscrita en el campamento
-            deleteCampamento(camp); 
+            deleteByCampamentoId(idCampamento); 
         }catch(Exception ex){
             System.out.println(ex.getMessage());
             respuesta.setCorrecto(false);
-            respuesta.setMensajeError("Ha ocurrido un error al eliminar el campamento. Intentalo de nuevo.");
+            respuesta.setMensajeError("Ha ocurrido un error al eliminar las personas inscritas.");
             return respuesta;
         }
         return respuesta;
     }
     
-    public static Response modificarCampamento(Campamento camp){
+    public static Response eliminarRelacionByPersonaId(int idPersona){
         Response respuesta = new Response();
         try{
             instanciarFichero();
-            //TODO eliminar la relacion de la gente que esté inscrita en el campamento
-            updateCampamento(camp); 
+            deleteByPersonaId(idPersona); 
         }catch(Exception ex){
             System.out.println(ex.getMessage());
             respuesta.setCorrecto(false);
-            respuesta.setMensajeError("Ha ocurrido un error al eliminar el campamento. Intentalo de nuevo.");
+            respuesta.setMensajeError("Ha ocurrido un error al eliminar las personas inscritas.");
             return respuesta;
         }
         return respuesta;
+    }
+    
+    private static void deleteByCampamentoId(int idCampamento) throws Exception{
+        try{
+            int posicion = 0;
+            bdPersonasCampamentos.seek(0);
+            while(bdPersonasCampamentos.getFilePointer() < bdPersonasCampamentos.length()){
+                bdPersonasCampamentos.seek(posicion);
+                int idCampamento = bdPersonasCampamentos.readInt();
+                StringBuffer buffer = new StringBuffer();
+                for(int x = 0;x<10;x++){
+                    buffer.append(bd.readChar());
+                }
+                String apellido = buffer.toString();
+                int departamento = bd.readInt();
+                double salario = bd.readDouble();
+                Empleado empleGenerado = new Empleado(id,apellido,departamento,salario);
+                System.out.println(empleGenerado.toString());
+                posicion += 8;
+            }
+        }catch(Exception ex){
+            throw ex;
+        }
     }
     
     private static void instanciarFichero() throws Exception{
         try{
-            bdCampamentos = new File("campamentos.dat");
+            bdPersonasCampamentos = new RandomAccessFile("campamentos.dat", "rw");
         }catch(Exception ex){
             throw ex;
         }
     }
     
-    public static List<Campamento> getAllCampamentos() throws Exception{
-        try{
-            instanciarFichero();
-            return getListaCampamentosFromBD();
-        }catch(Exception ex){
-            throw ex;
-        }
-    }
+    
     
     public static Campamento buscarCampamentoById(Campamento camp) throws Exception{
         try{
@@ -96,38 +109,6 @@ public class CampamentosBD {
             List<Campamento> campamentos = getListaCampamentosFromBD();
             camp.setId(generarIdFromList(campamentos));
             campamentos.add(camp);
-            insertarListaCampamentos(campamentos);
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-    
-    private static void deleteCampamento(Campamento camp) throws Exception{
-        try {
-            List<Campamento> campamentos = getListaCampamentosFromBD();
-            campamentos = campamentos.stream().filter(c -> c.getId() != camp.getId()).collect(Collectors.toList());
-            insertarListaCampamentos(campamentos);
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-    
-    private static void updateCampamento(Campamento camp) throws Exception{
-        try {
-            List<Campamento> campamentos = getListaCampamentosFromBD();
-            List<Campamento> campamentosEncontrados = campamentos.stream().filter(c -> c.getId() == camp.getId()).collect(Collectors.toList());
-            Campamento encontrado = null;
-            if(campamentosEncontrados != null && campamentosEncontrados.size() > 0){
-                encontrado = campamentosEncontrados.get(0);
-            }
-            
-            if(encontrado != null){
-                //TODO hacer comprobaciones de la capacidad para no reducir la capacidad cuando ya hay mas gente apuntada
-                encontrado.setNombre(camp.getNombre());
-                encontrado.setLugar(camp.getLugar());
-                encontrado.setFechaI(camp.getFechaI());
-                encontrado.setFechaF(camp.getFechaF());
-            }
             insertarListaCampamentos(campamentos);
         } catch (Exception e) {
             throw e;

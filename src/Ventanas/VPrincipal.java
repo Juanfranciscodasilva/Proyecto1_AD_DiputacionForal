@@ -202,11 +202,7 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void ModificarCampamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarCampamentoActionPerformed
-        try {
-           // Main.AbrirEliminarModificarCamp(1);
-        } catch (Exception ex) {
-           System.out.println("Ha ocurrido un problema\n\n"+ex.getMessage());
-        }
+        Main.entrarVerModificarEliminarCamp(1);
     }//GEN-LAST:event_ModificarCampamentoActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -222,11 +218,11 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_NuevoCampamentoActionPerformed
 
     private void EliminarCampamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarCampamentoActionPerformed
-        //Main.AbrirEliminarModificarCamp(0);
+        Main.entrarVerModificarEliminarCamp(0);
     }//GEN-LAST:event_EliminarCampamentoActionPerformed
 
     private void VerCampamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerCampamentosActionPerformed
-       // Main.AbrirEliminarModificarCamp(2);
+       Main.entrarVerModificarEliminarCamp(2);
     }//GEN-LAST:event_VerCampamentosActionPerformed
 
     private void InscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InscribirActionPerformed
