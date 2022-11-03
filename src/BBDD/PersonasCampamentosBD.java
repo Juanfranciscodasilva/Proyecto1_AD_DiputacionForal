@@ -1,7 +1,10 @@
 package BBDD;
 
 import Clases.Campamento;
+import Clases.CampamentoPersona;
+import Clases.Persona;
 import Clases.Response;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -9,25 +12,39 @@ import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PersonasCampamentosBD {
-    public static RandomAccessFile bdPersonasCampamentos = null;
+    public static File bdPersonasCampamentos = null;
     
-    public static Response registrarCampamento(Campamento camp){
+    public static Response registrarInscripcion(Campamento camp, Persona per){
         Response respuesta = new Response();
         try{
             instanciarFichero();
-            insertarCampamento(camp); 
+            if(!existeInscripcion(camp.getId(), per.getId())){
+                insertarInscripcion(camp.getId(), per.getId()); 
+            }else{
+                respuesta.setCorrecto(false);
+                respuesta.setMensajeError("Esta persona ya está inscrita en el campamento.");
+            }
         }catch(Exception ex){
             System.out.println(ex.getMessage());
             respuesta.setCorrecto(false);
-            respuesta.setMensajeError("Ha ocurrido un error al crear el campamento. Intentalo de nuevo.");
-            return respuesta;
+            respuesta.setMensajeError("Ha ocurrido un error al registrar la inscripción. Intentalo de nuevo.");
         }
         return respuesta;
     }
     
-    public static Response eliminarRelacionByCampamentoId(int idCampamento){
+    public static int countOfPersonasInCampamento(Campamento camp){
+        try{
+            instanciarFichero();
+            return getListaInscripcionesFromBD().size();
+        }catch(Exception ex){
+            return 0;
+        }
+    }
+    
+    public static Response eliminarInscripcionByCampamentoId(int idCampamento){
         Response respuesta = new Response();
         try{
             instanciarFichero();
@@ -41,7 +58,7 @@ public class PersonasCampamentosBD {
         return respuesta;
     }
     
-    public static Response eliminarRelacionByPersonaId(int idPersona){
+    public static Response eliminarInscripcionByPersonaId(int idPersona){
         Response respuesta = new Response();
         try{
             instanciarFichero();
@@ -56,102 +73,77 @@ public class PersonasCampamentosBD {
     }
     
     private static void deleteByCampamentoId(int idCampamento) throws Exception{
-        try{
-            int posicion = 0;
-            bdPersonasCampamentos.seek(0);
-            while(bdPersonasCampamentos.getFilePointer() < bdPersonasCampamentos.length()){
-                bdPersonasCampamentos.seek(posicion);
-                int idCampamento = bdPersonasCampamentos.readInt();
-                StringBuffer buffer = new StringBuffer();
-                for(int x = 0;x<10;x++){
-                    buffer.append(bd.readChar());
-                }
-                String apellido = buffer.toString();
-                int departamento = bd.readInt();
-                double salario = bd.readDouble();
-                Empleado empleGenerado = new Empleado(id,apellido,departamento,salario);
-                System.out.println(empleGenerado.toString());
-                posicion += 8;
-            }
-        }catch(Exception ex){
-            throw ex;
+        try {
+            List<CampamentoPersona> inscripciones = getListaInscripcionesFromBD();
+            inscripciones = inscripciones.stream().filter(cp -> cp.getIdCampamento() != idCampamento).collect(Collectors.toList());
+            insertarListaInscripciones(inscripciones);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    private static void deleteByPersonaId(int idPersona) throws Exception{
+        try {
+            List<CampamentoPersona> inscripciones = getListaInscripcionesFromBD();
+            inscripciones = inscripciones.stream().filter(cp -> cp.getIdPersona() != idPersona).collect(Collectors.toList());
+            insertarListaInscripciones(inscripciones);
+        } catch (Exception e) {
+            throw e;
         }
     }
     
     private static void instanciarFichero() throws Exception{
         try{
-            bdPersonasCampamentos = new RandomAccessFile("campamentos.dat", "rw");
+            bdPersonasCampamentos = new File("campamentoPersona.dat");
         }catch(Exception ex){
             throw ex;
         }
     }
     
-    
-    
-    public static Campamento buscarCampamentoById(Campamento camp) throws Exception{
-        try{
-            FileInputStream input = new FileInputStream(bdCampamentos);
-            ObjectInputStream objIS = new ObjectInputStream(input);
-            while(input.available() != 0){
-                Campamento campamento = (Campamento)objIS.readObject();
-                if(campamento.getId() == camp.getId()){
-                    return campamento;
-                }
-            }
-            return null;
-        }catch(Exception ex){
-            return null;
-        }
-    }
-    
-    private static void insertarCampamento(Campamento camp) throws Exception{
+    private static void insertarInscripcion(int idCampamento, int idPersona) throws Exception{
         try {
-            List<Campamento> campamentos = getListaCampamentosFromBD();
-            camp.setId(generarIdFromList(campamentos));
-            campamentos.add(camp);
-            insertarListaCampamentos(campamentos);
+            List<CampamentoPersona> inscripciones = getListaInscripcionesFromBD();
+            CampamentoPersona campPer = new CampamentoPersona(idCampamento,idPersona);
+            inscripciones.add(campPer);
+            insertarListaInscripciones(inscripciones);
         } catch (Exception e) {
             throw e;
         }
     }
     
-    private static void insertarListaCampamentos(List<Campamento> campamentos) throws Exception{
+    private static void insertarListaInscripciones(List<CampamentoPersona> inscripciones) throws Exception{
         try {
-            FileOutputStream fileout = new FileOutputStream(bdCampamentos);
+            FileOutputStream fileout = new FileOutputStream(bdPersonasCampamentos);
             ObjectOutputStream objOS = new ObjectOutputStream(fileout);
-            for(Campamento c : campamentos){
-                objOS.writeObject(c);
+            for(CampamentoPersona inscripcion : inscripciones){
+                objOS.writeObject(inscripcion);
             }
         } catch (Exception e) {
             throw e;
         }
     }
     
-    private static int generarIdFromList(List<Campamento> campamentos){
-        int id = 0;
-        if(campamentos == null || campamentos.isEmpty()){
-            return 0;
+    private static boolean existeInscripcion(int idCampamento, int idPersona){
+        try{
+            List<CampamentoPersona> inscripciones = getListaInscripcionesFromBD();
+            return inscripciones.stream().anyMatch(cp -> cp.getIdCampamento() == idCampamento && cp.getIdPersona() == idPersona);
+        }catch(Exception ex){
+            return false;
         }
-        for(Campamento c : campamentos){
-            if(c.getId() > id){
-                id = c.getId();
-            }
-        }
-        return id+1;
     }
     
-    private static List<Campamento> getListaCampamentosFromBD() throws Exception{
+    private static List<CampamentoPersona> getListaInscripcionesFromBD() throws Exception{
         try{
-            List<Campamento> campamentos = new ArrayList<>();
-            if(bdCampamentos.exists()){
-                FileInputStream input = new FileInputStream(bdCampamentos);
+            List<CampamentoPersona> campamentosPersonas = new ArrayList<>();
+            if(bdPersonasCampamentos.exists()){
+                FileInputStream input = new FileInputStream(bdPersonasCampamentos);
                 ObjectInputStream objIS = new ObjectInputStream(input);
                 while(input.available() != 0){
-                    Campamento camp = (Campamento)objIS.readObject();
-                    campamentos.add(camp);
+                    CampamentoPersona inscripcion = (CampamentoPersona)objIS.readObject();
+                    campamentosPersonas.add(inscripcion);
                 }
             }
-            return campamentos;
+            return campamentosPersonas;
         }catch(Exception ex){
             throw ex;
         }
