@@ -2,7 +2,6 @@ package Ventanas;
 
 import Clases.Usuario;
 import diputacionAlava.Main;
-import javax.swing.JOptionPane;
 
 public class IniciarSesion extends javax.swing.JFrame {
 

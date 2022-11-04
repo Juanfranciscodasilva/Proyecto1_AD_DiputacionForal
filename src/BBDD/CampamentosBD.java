@@ -58,6 +58,15 @@ public class CampamentosBD {
         return respuesta;
     }
     
+    public static Campamento findCampamentoById(Campamento camp){
+        try{
+            instanciarFichero();
+            return buscarCampamentoById(camp);
+        }catch(Exception ex){
+            return null;
+        }
+    }
+    
     private static void instanciarFichero() throws Exception{
         try{
             bdCampamentos = new File("campamentos.dat");
@@ -75,7 +84,7 @@ public class CampamentosBD {
         }
     }
     
-    public static Campamento buscarCampamentoById(Campamento camp) throws Exception{
+    private static Campamento buscarCampamentoById(Campamento camp) throws Exception{
         try{
             FileInputStream input = new FileInputStream(bdCampamentos);
             ObjectInputStream objIS = new ObjectInputStream(input);

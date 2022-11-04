@@ -163,7 +163,7 @@ public class VerModificarEliminarCampamento extends javax.swing.JFrame {
         if(this.opcion==0){
             Response respuesta = Main.EliminarCampamento(camp); 
             if(!respuesta.isCorrecto()){
-                JOptionPane.showMessageDialog(null, respuesta.getMensajeError());
+                JOptionPane.showMessageDialog(null, respuesta.getMensajeError(),"", JOptionPane.ERROR_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(null, "Se ha eliminado el campamento correctamente.");
                 Main.cerrarVerModificarEliminarCamp();

@@ -72,6 +72,39 @@ public class PersonasCampamentosBD {
         return respuesta;
     }
     
+    public static Response eliminarInscripcionByCampamentoIdAndPersonaId(int idCampamento, int idPersona){
+        Response respuesta = new Response();
+        try{
+            instanciarFichero();
+            deleteByCampamentoIdAndPersonaId(idCampamento,idPersona); 
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+            respuesta.setCorrecto(false);
+            respuesta.setMensajeError("Ha ocurrido un error al eliminar la inscripción.");
+            return respuesta;
+        }
+        return respuesta;
+    }
+    
+    public static List<CampamentoPersona> getAllByCampamentoId(int idCampamento){
+        try{
+            List<CampamentoPersona> inscripciones = getListaInscripcionesFromBD();
+            return inscripciones.stream().filter(ins -> ins.getIdCampamento() == idCampamento).collect(Collectors.toList());
+        }catch(Exception ex){
+            return null;
+        }
+    }
+    
+    public static List<CampamentoPersona> getAllByPersonaId(int idPersona){
+        try{
+            instanciarFichero();
+            List<CampamentoPersona> inscripciones = getListaInscripcionesFromBD();
+            return inscripciones.stream().filter(ins -> ins.getIdPersona() == idPersona).collect(Collectors.toList());
+        }catch(Exception ex){
+            return null;
+        }
+    }
+    
     private static void deleteByCampamentoId(int idCampamento) throws Exception{
         try {
             List<CampamentoPersona> inscripciones = getListaInscripcionesFromBD();
@@ -86,6 +119,16 @@ public class PersonasCampamentosBD {
         try {
             List<CampamentoPersona> inscripciones = getListaInscripcionesFromBD();
             inscripciones = inscripciones.stream().filter(cp -> cp.getIdPersona() != idPersona).collect(Collectors.toList());
+            insertarListaInscripciones(inscripciones);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    private static void deleteByCampamentoIdAndPersonaId(int idCampamento, int idPersona) throws Exception{
+        try {
+            List<CampamentoPersona> inscripciones = getListaInscripcionesFromBD();
+            inscripciones = inscripciones.stream().filter(cp -> !(cp.getIdPersona() == idPersona && cp.getIdCampamento() == idCampamento)).collect(Collectors.toList());
             insertarListaInscripciones(inscripciones);
         } catch (Exception e) {
             throw e;

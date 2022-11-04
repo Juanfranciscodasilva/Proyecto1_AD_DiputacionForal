@@ -5,8 +5,6 @@ import Clases.Response;
 import diputacionAlava.Main;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 public class CrearCampamento extends javax.swing.JFrame {
@@ -22,7 +20,7 @@ public class CrearCampamento extends javax.swing.JFrame {
         NoFechaI.setVisible(false);
         NoFechaF.setVisible(false);
         NoCapacidad.setVisible(false);
-        int opcion = 0;
+        this.opcion = 0;
         c = new Campamento();
     }
     
@@ -236,12 +234,12 @@ public class CrearCampamento extends javax.swing.JFrame {
             }
             if(respuesta != null){
                 if(!respuesta.isCorrecto()){
-                    JOptionPane.showMessageDialog(null,respuesta.getMensajeError());
+                    JOptionPane.showMessageDialog(null,respuesta.getMensajeError(),"", JOptionPane.ERROR_MESSAGE);
                 }else{
                     Main.cerrarCrearModificarCampamento(this.opcion);
                 }
             }else{
-                JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado. Vuelve a intentarlo.");
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado. Vuelve a intentarlo.","", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_AceptarModificarActionPerformed

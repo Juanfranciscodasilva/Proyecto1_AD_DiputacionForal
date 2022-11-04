@@ -2,17 +2,13 @@ package Ventanas;
 
 import Clases.Campamento;
 import Clases.Persona;
+import Clases.Response;
 import diputacionAlava.Main;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 public class InscribirPersona extends javax.swing.JFrame {
@@ -81,15 +77,15 @@ public class InscribirPersona extends javax.swing.JFrame {
 
         jLabel3.setText("Fecha Inicio:");
 
-        tFechaI.setEnabled(false);
+        tFechaI.setEditable(false);
 
         eLugar.setText("Lugar:");
 
-        tLugar.setEnabled(false);
+        tLugar.setEditable(false);
 
         jLabel4.setText("Fecha Fin:");
 
-        tFechaF.setEnabled(false);
+        tFechaF.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -159,7 +155,7 @@ public class InscribirPersona extends javax.swing.JFrame {
             }
         });
 
-        tNombre.setEnabled(false);
+        tNombre.setEditable(false);
         tNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tNombreActionPerformed(evt);
@@ -168,13 +164,13 @@ public class InscribirPersona extends javax.swing.JFrame {
 
         jLabel6.setText("Nombre:");
 
-        tApellido1.setEnabled(false);
+        tApellido1.setEditable(false);
 
         jLabel7.setText("Primer apellido:");
 
         eApellido2.setText("Segundo apellido:");
 
-        tApellido2.setEnabled(false);
+        tApellido2.setEditable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -259,8 +255,6 @@ public class InscribirPersona extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.getAccessibleContext().setAccessibleName("Persona");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -272,6 +266,7 @@ public class InscribirPersona extends javax.swing.JFrame {
         }
         if(camp == null){
             LimpiarCamposCampamento();
+            this.camp = null;
         }else{
             this.camp = camp;
             AutocompletarDatosCampamento();
@@ -284,7 +279,19 @@ public class InscribirPersona extends javax.swing.JFrame {
 
     private void InscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InscribirActionPerformed
         if(this.camp != null && this.per != null){
-            //TODO enviar al main para registrarlo 
+            Response respuesta = null;
+            respuesta = Main.insertarInscripcion(camp, per);
+            if(respuesta != null){
+                if(respuesta.isCorrecto()){
+                    JOptionPane.showMessageDialog(null, "Se ha inscrito a la persona seleccionada en el campamento seleccionado.");
+                    Main.cerrarInscribirPersona();
+                }else{
+                    JOptionPane.showMessageDialog(null, respuesta.getMensajeError(),"", JOptionPane.ERROR_MESSAGE);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado. Intenalo de nuevo.","", JOptionPane.ERROR_MESSAGE);
+            }
+            
         }else{
             JOptionPane.showMessageDialog(null, "Tanto el campamento como la persona son datos obligatorios.");
         }
@@ -298,6 +305,7 @@ public class InscribirPersona extends javax.swing.JFrame {
         }
         if(pers == null){
             LimpiarCamposPersona();
+            this.per = null;
         }else{
             this.per = pers;
             AutocompletarDatosPersona();
@@ -402,7 +410,7 @@ public class InscribirPersona extends javax.swing.JFrame {
             try{
                 cbDni.addItem("-----Elegir persona-----");
                 for(Persona pers : this.listaPer){
-                    cbNombre.addItem(pers.getDni());
+                    cbDni.addItem(pers.getDni());
                 }
             }catch(Exception e){
                 System.out.println("ha ocurrido un error "+ e.getMessage());

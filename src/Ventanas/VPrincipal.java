@@ -239,11 +239,11 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_InscribirActionPerformed
 
     private void RetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RetirarActionPerformed
-        // Main.AbrirRetirarPersona(0);
+        Main.entrarRetirarPersona(1);
     }//GEN-LAST:event_RetirarActionPerformed
 
     private void VerInscripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerInscripcionesActionPerformed
-        //Main.AbrirRetirarPersona(1);
+        Main.entrarRetirarPersona(0);
     }//GEN-LAST:event_VerInscripcionesActionPerformed
 
     private void VerListaPersonasEnCampamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerListaPersonasEnCampamentoActionPerformed
@@ -251,7 +251,7 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_VerListaPersonasEnCampamentoActionPerformed
 
     private void RegistrarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarPersonaActionPerformed
-        
+        Main.entrarCrearPersona();
     }//GEN-LAST:event_RegistrarPersonaActionPerformed
 
     /**
@@ -313,10 +313,10 @@ public class VPrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void NoCampamentos() {
-        JOptionPane.showMessageDialog(this,"No hay campamentos");
+        JOptionPane.showMessageDialog(this,"No hay campamentos","", JOptionPane.WARNING_MESSAGE);
     }
     
     public void NoPersonas() {
-        JOptionPane.showMessageDialog(this,"No hay personas registradas");
+        JOptionPane.showMessageDialog(this,"No hay personas registradas","", JOptionPane.WARNING_MESSAGE);
     }
 }
