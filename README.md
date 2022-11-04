@@ -5,8 +5,6 @@ Esta aplicación está pensada para realizar una tarea de gestión interna de ca
 
 La funcionalidad de la aplicación se basará en la gestión de los diferentes campamentos registrados y de las inscripciones de las personas que soliciten entrar en los mismos.
 
-![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
-
 #  Índice de Contenidos 
 * [Información técnica](#información-técnica)
     * [Requerimientos](#requerimientos)
