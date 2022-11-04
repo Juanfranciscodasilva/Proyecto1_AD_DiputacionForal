@@ -29,6 +29,15 @@ public class PersonasBD {
         return respuesta;
     }
     
+    public static List<Persona> getAllPersonas() throws Exception{
+        try{
+            instanciarFichero();
+            return getListaPersonasFromBD();
+        }catch(Exception ex){
+            throw ex;
+        }
+    }
+    
     private static void instanciarFichero() throws Exception{
         try{
             bdPersonas = new File("personas.dat");
@@ -57,59 +66,19 @@ public class PersonasBD {
         try {
             List<Persona> personas = getListaPersonasFromBD();
             per.setId(generarIdFromList(personas));
-            campamentos.add(camp);
-            insertarListaCampamentos(campamentos);
+            personas.add(per);
+            insertarListaPersonas(personas);
         } catch (Exception e) {
             throw e;
         }
     }
     
-    private static void deleteCampamento(Campamento camp) throws Exception{
+    private static void insertarListaPersonas(List<Persona> personas) throws Exception{
         try {
-            List<Campamento> campamentos = getListaCampamentosFromBD();
-            campamentos = campamentos.stream().filter(c -> c.getId() != camp.getId()).collect(Collectors.toList());
-            insertarListaCampamentos(campamentos);
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-    
-    private static Response updateCampamento(Campamento camp) throws Exception{
-        Response respuesta = new Response();
-        try {
-            List<Campamento> campamentos = getListaCampamentosFromBD();
-            List<Campamento> campamentosEncontrados = campamentos.stream().filter(c -> c.getId() == camp.getId()).collect(Collectors.toList());
-            Campamento encontrado = null;
-            if(campamentosEncontrados != null && !campamentosEncontrados.isEmpty()){
-                encontrado = campamentosEncontrados.get(0);
-            }
-            
-            if(encontrado != null){
-                if(PersonasCampamentosBD.countOfPersonasInCampamento(encontrado) > camp.getCapacidad()){
-                    respuesta.setCorrecto(false);
-                    respuesta.setMensajeError("Ya hay mas personas inscritas que la nueva capacidad del campamento indicada. Por favor"
-                            + " indica una capacidad adecuada o reduce el número de inscripciones para poder continuar.");
-                    return respuesta;
-                }
-                encontrado.setCapacidad(camp.getCapacidad());
-                encontrado.setNombre(camp.getNombre());
-                encontrado.setLugar(camp.getLugar());
-                encontrado.setFechaI(camp.getFechaI());
-                encontrado.setFechaF(camp.getFechaF());
-            }
-            insertarListaCampamentos(campamentos);
-            return respuesta;
-        } catch (Exception e) {
-            return respuesta;
-        }
-    }
-    
-    private static void insertarListaCampamentos(List<Campamento> campamentos) throws Exception{
-        try {
-            FileOutputStream fileout = new FileOutputStream(bdCampamentos);
+            FileOutputStream fileout = new FileOutputStream(bdPersonas);
             ObjectOutputStream objOS = new ObjectOutputStream(fileout);
-            for(Campamento c : campamentos){
-                objOS.writeObject(c);
+            for(Persona p : personas){
+                objOS.writeObject(p);
             }
         } catch (Exception e) {
             throw e;

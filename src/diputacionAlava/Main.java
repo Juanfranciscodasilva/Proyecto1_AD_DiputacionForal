@@ -1,12 +1,15 @@
 package diputacionAlava;
 
 import BBDD.CampamentosBD;
+import BBDD.PersonasBD;
 import BBDD.UsuariosAplicacionBD;
 import Clases.Campamento;
+import Clases.Persona;
 import Clases.Response;
 import Clases.Usuario;
 import Ventanas.CrearCampamento;
 import Ventanas.IniciarSesion;
+import Ventanas.InscribirPersona;
 import Ventanas.RegistrarUsuario;
 import Ventanas.VPrincipal;
 import Ventanas.VerModificarEliminarCampamento;
@@ -21,6 +24,7 @@ public class Main {
     private static VPrincipal vPrincipal;
     private static CrearCampamento vCrearModificarCampamento;
     private static VerModificarEliminarCampamento vVerModificarEliminarCamp;
+    private static InscribirPersona vInscribirPersona;
 
     public static void main(String[] args) {
 //        vLogin = new IniciarSesion();
@@ -93,6 +97,29 @@ public class Main {
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error al abrir la ventana. Intentalo de nuevo.");
         }
+    }
+    
+     public static void entrarInscribirPersona(){
+        
+        try{
+            List<Campamento> campamentos = CampamentosBD.getAllCampamentos();
+            List<Persona> personas = PersonasBD.getAllPersonas();
+            if(vPrincipal != null){
+                vPrincipal.setVisible(false);
+                vPrincipal.dispose();
+            }
+            vInscribirPersona = new InscribirPersona(campamentos,personas);
+            vInscribirPersona.setVisible(true);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error al abrir la ventana. Intentalo de nuevo.");
+        }
+    }
+    
+    public static void cerrarInscribirPersona(){
+        vInscribirPersona.setVisible(false);
+        vInscribirPersona.dispose();
+        vPrincipal = new VPrincipal();
+        vPrincipal.setVisible(true);
     }
     
     public static void cerrarVerModificarEliminarCamp(){

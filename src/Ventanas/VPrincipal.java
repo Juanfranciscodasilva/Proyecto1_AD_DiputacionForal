@@ -28,6 +28,7 @@ public class VPrincipal extends javax.swing.JFrame {
         VerCampamentos = new javax.swing.JMenuItem();
         VerListaPersonasEnCampamento = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        RegistrarPersona = new javax.swing.JMenuItem();
         Inscribir = new javax.swing.JMenuItem();
         Retirar = new javax.swing.JMenuItem();
         VerInscripciones = new javax.swing.JMenuItem();
@@ -105,6 +106,14 @@ public class VPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Personas");
+
+        RegistrarPersona.setText("Registrar persona");
+        RegistrarPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrarPersonaActionPerformed(evt);
+            }
+        });
+        jMenu2.add(RegistrarPersona);
 
         Inscribir.setText("Inscribir");
         Inscribir.addActionListener(new java.awt.event.ActionListener() {
@@ -226,7 +235,7 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_VerCampamentosActionPerformed
 
     private void InscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InscribirActionPerformed
-        //Main.AbrirInscribir();
+        Main.entrarInscribirPersona();
     }//GEN-LAST:event_InscribirActionPerformed
 
     private void RetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RetirarActionPerformed
@@ -240,6 +249,10 @@ public class VPrincipal extends javax.swing.JFrame {
     private void VerListaPersonasEnCampamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerListaPersonasEnCampamentoActionPerformed
        // Main.AbrirGenteInscrita();
     }//GEN-LAST:event_VerListaPersonasEnCampamentoActionPerformed
+
+    private void RegistrarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarPersonaActionPerformed
+        
+    }//GEN-LAST:event_RegistrarPersonaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -282,6 +295,7 @@ public class VPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Inscribir;
     private javax.swing.JMenuItem ModificarCampamento;
     private javax.swing.JMenuItem NuevoCampamento;
+    private javax.swing.JMenuItem RegistrarPersona;
     private javax.swing.JMenuItem Retirar;
     private javax.swing.JButton Salir;
     private javax.swing.JMenuItem VerCampamentos;
