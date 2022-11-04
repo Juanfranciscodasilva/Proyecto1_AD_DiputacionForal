@@ -5,112 +5,155 @@ Esta aplicación está pensada para realizar una tarea de gestión interna de ca
 
 La funcionalidad de la aplicación se basará en la gestión de los diferentes campamentos registrados y de las inscripciones de las personas que soliciten entrar en los mismos.
 
-# Requerimientos
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
+
+#  Índice de Contenidos 
+* [Información técnica](#información-técnica)
+    * [Requerimientos](#requerimientos)
+    * [Almacenamiento](#almacenamiento)
+    * [A tener en cuenta](#a-tener-en-cuenta)
+* [Estructura](#estructura)
+    * [Login](#login)
+    * [Registro](#registro)
+    * [Ventana principal](#ventana-principal)
+        * [Pestaña campamentos](#pestaña-campamentos)
+            * [Crear campamento](#crear-campamento)
+            * [Modificar campamento](#modificar-campamento)
+            * [Eliminar campamento](#eliminar-campamento)
+            * [Ver campamento](#ver-campamento)
+            * [Ver inscripciones campamento](#ver-inscripciones-campamento)
+        * [Pestaña personas](#pestaña-personas)
+            * [Inscribir persona](#inscribir-persona)
+            * [Retirar persona????](#retirar-persona)
+            * [Exportar XML personas????](#exportar-xml-personas)
+            * [Inscribir XML personas????](#inscribir-xml-personas)
+            * [Ver campamentos inscritos](#ver-campamentos-inscritos)
+        * [Pestaña salir](#pestaña-salir)
+            * [Cerrar sesión](#cerrar-sesión)
+            * [salir](#salir)
+---
+
+# Información Técnica
+---
+## Requerimientos
 
 * JDK 18
 * JCalendar-1.14.jar
 
+## Almacenamiento
+
+Se lleva a cabo en ficheros .dat en los cuales se hará la escritura directa de los objetos serializables.
+* campamentos.dat
+* personas.dat
+* campamentoPersona.dat
+* usuarios.dat
+
+## A tener en cuenta
+Las vistas están hechas basadas en JFrame desde Netbeans, es posible que para visualizar de manera acertada su diseñador se necesite dicho IDE.
+
+---
+# Estructura
+---
+
+## Login
+
+El login se compone del campo usuario y contraseña desde el cual se accederá a la aplicación. Esta será la ventana inicial de la aplicación al ejecutarla.
+
+Para iniciar sesión se deberán de indicar un usuario y una contraseña registradas en el sistema, en caso de que no se propicien credenciales válidas informará de ello a través de una etiqueta roja.
+
+Consta de un botón de registrar que redirige a otra ventana para poder registrar nuevos usuarios.
+
 ![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
-#  Índice de contenidos 
-* [Contenido 1](#foo)
-* * [Contenido 1](#item1)
-* [Contenido 2](#item2)
-* [Contenido 3](#item3)
-* [Contenido 4](#item4)
+## Registro
 
-The `etc` directory contains the configuration files and directories that need to be copied to `/etc/cas/config`.
-```bash
-/usr/bin/sudo ./build.sh copy
-```
+El registro consta de un formulario sencillo donde se pide un usuario + confirmación y una contraseña + confirmación.
 
-# Build
+Para que un usuario se pueda registrar deberán coincidir usuario/confirmarUsuario y contraseña/confirmarContraseña, además, el usuario deberá ser único entre los registrados, por lo que se validará que no exista el usuario.
 
-To see what commands are available to the build script, run:
+Contiene etiquetas rojas para informar de las validaciones que no pase el formulario a la hora de registrar.
 
-```bash
-./build.sh help
-```
+Una vez registrado un usuario, la ventana se encargará de volver al login.
 
-To package the final web application, run:
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
-```bash
-./build.sh package
-```
+## Ventana Principal
+---
+La ventana principal consta de: un menú con diferentes pestañas para navegar por la aplicación, de un título y de botones para cerrar sesión o salir definitivamente de la aplicación (parar su ejecución).
 
-To update `SNAPSHOT` versions run:
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
-```bash
-./build.sh package -U
-```
+## Pestaña Campamentos
 
-# Foo
+### Crear Campamento
+La ventana de crear campamentos consta de un formulario que recogerá datos del campamento:
+* Nombre
+* Lugar
+* Fecha de inicio
+* Fecha de fin
+* Capacidad
 
-- Create a keystore file `thekeystore` under `/etc/cas`. Use the password `changeit` for both the keystore and the key/certificate entries.
-```bash
-./build.sh gencert
-```
+Esta ventana validará que no haya datos vacíos, que la fecha de inicio no sea posterior a la de fin y que la capacidad sea un numero entero mayor a cero. Para ello consta de etiquetas rojas que se mostrarán en función de las validaciones que no pase el formulario a la hora de crear el campamento.
 
-- Ensure the keystore is loaded up with keys and certificates of the server.
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
-On a successful deployment via the following methods, CAS will be available at:
+### Modificar Campamento
+Este enlace redirige a una ventana intermedia donde se seleccionará el campamento a modificar. Dicha ventana está compuesta por un desplegable con los distintos campamentos donde se puede seleccionar uno y se mostrarán los datos de dicho campamento seleccionado. 
 
-* `http://cas.server.name:8080/cas`
-* `https://cas.server.name:8443/cas`
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
-## Executable WAR
+Una vez seleccionado un campamento se podrá dar a "Modificar" y llevará a la siguiente ventana.
 
-Run the CAS web application as an executable WAR.
+La siguiente ventana, como la de "Crear Campamento" consta de los campos necesarios a rellenar para modificar el campamento.
 
-```bash
-./build.sh run
-```
+Nuevamente se hacen las validaciones de que no estén vacíos los campos, que la fecha inicial no sea posterior a la final, y que la capacidad sea un número entero mayor a cero, con un añadido de que la capacidad no sea menor al número de personas ya inscritas en dicho campamento.
 
-## Spring Boot
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
-Run the CAS web application as an executable WAR via Spring Boot. This is most useful during development and testing.
+### Eliminar Campamento
+Al igual que en "Modificar Campamento" este enlace redirige a una ventana intermedia donde se seleccionará el campamento a eliminar. Dicha ventana está compuesta por un desplegable con los distintos campamentos donde se puede seleccionar uno y se mostrarán los datos de dicho campamento seleccionado. 
 
-```bash
-./build.sh bootrun
-```
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
-### Warning!
+Una vez seleccionado un campamento se podrá dar a "Eliminar". Paso seguido aparecerá un mensaje de confirmación para eliminar el campamento.
 
-Be careful with this method of deployment. `bootRun` is not designed to work with already executable WAR artifacts such that CAS server web application. YMMV. Today, uses of this mode ONLY work when there is **NO OTHER** dependency added to the build script and the `cas-server-webapp` is the only present module. See [this issue](https://github.com/apereo/cas/issues/2334) and [this issue](https://github.com/spring-projects/spring-boot/issues/8320) for more info.
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
-<a name="item1"/>
-### Contenido 1
+### Ver Campamento
+Este enlace redirige a una ventana intermedia donde se seleccionará el campamento del que se quieren ver los daots. Dicha ventana está compuesta por un desplegable con los distintos campamentos.
 
-[para arriba](#Indice-de-contenidos)
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
+### Ver Inscripciones Campamento
 
-## Spring Boot App Server Selection
+TODO
 
-There is an app.server property in the `pom.xml` that can be used to select a spring boot application server.
-It defaults to `-tomcat` but `-jetty` and `-undertow` are supported. 
-It can also be set to an empty value (nothing) if you want to deploy CAS to an external application server of your choice.
+## Pestaña Personas
 
-```xml
-<app.server>-tomcat<app.server>
-```
+### Inscribir persona
 
-## Windows Build
+TODO
 
-If you are building on windows, try `build.cmd` instead of `build.sh`. Arguments are similar but for usage, run:  
+### Retirar persona
 
-```
-build.cmd help
-```
+TODO
 
-## External
+### Exportar XML personas
 
-Deploy resultant `target/cas.war`  to a servlet container of choice.
+TODO
 
+### Inscribir XML personas
 
-## Command Line Shell
+TODO
 
-Invokes the CAS Command Line Shell. For a list of commands either use no arguments or use `-h`. To enter the interactive shell use `-sh`.
+### Ver Campamentos Inscritos
 
-```bash
-./build.sh cli
-```
+TODO
+
+## Pestaña Salir
+
+### Cerrar Sesión
+Al hacer click en esta pestaña se cerrará la sesión y se volverá al login de la aplicación.
+
+### Salir
+Al hacer click en esta pestaña se cerrará la aplicación deteniendo su ejecución.
