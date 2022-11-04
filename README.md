@@ -23,8 +23,9 @@ La funcionalidad de la aplicación se basará en la gestión de los diferentes c
             * [Ver campamento](#ver-campamento)
             * [Ver inscripciones campamento](#ver-inscripciones-campamento)
         * [Pestaña personas](#pestaña-personas)
+            * [Crear persona](#crear-persona)
             * [Inscribir persona](#inscribir-persona)
-            * [Retirar persona????](#retirar-persona)
+            * [Retirar persona](#retirar-persona)
             * [Exportar XML personas????](#exportar-xml-personas)
             * [Inscribir XML personas????](#inscribir-xml-personas)
             * [Ver campamentos inscritos](#ver-campamentos-inscritos)
@@ -130,13 +131,34 @@ TODO
 
 ## Pestaña Personas
 
-### Inscribir persona
+### Crear persona
+La ventana de crear personas consta de un formulario que recogerá datos de la persona:
+* DNI
+* Nombre
+* Primer apellido
+* Segundo apellido
 
-TODO
+Esta ventana validará que no haya datos vacíos, y que el DNI no esté ya registrado. Para ello consta de etiquetas rojas que se mostrarán en función de las validaciones que no pase el formulario a la hora de crear a la persona.
+
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
+
+### Inscribir persona
+Esta ventana está conformada por 2 bloques de datos.
+
+El primero será el del campamento. Consta de un desplegable para seleccionar el campamento al que se inscribirá la persona seleccionada en el siguiente bloque, que de la misma manera que los campamentos, contiene un desplegable con el que se elegirá a la persona que se quiere inscribir.
+
+Para poder realizar la inscripción será obligatorio tener un campamento y una persona seleccionada.
+
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
 ### Retirar persona
+Esta ventana, como la de inscripción, está conformada por 2 bloques de datos.
 
-TODO
+El primero será el de la persona. Consta de un desplegable para seleccionar la persona de la cual se quiere retirar de un campamento, que de la misma manera que en el primer bloque, se seleccionará a través de un desplegable relleno con los campamentos a los que está inscrita la persona seleccionada arriba.
+
+Para poder realizar el proceso de retirar la inscripción será obligatorio tener una persona y un campamento seleccionado.
+
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
 ### Exportar XML personas
 
@@ -147,8 +169,11 @@ TODO
 TODO
 
 ### Ver Campamentos Inscritos
+Esta ventana, como la de [retirar persona](#retirar-persona), está conformada por 2 bloques de datos.
 
-TODO
+Funciona exactamente igual que la ventana anteriormente mencionada, pero no tendrá opción de retirar a la persona.
+
+![prueba](https://drive.google.com/uc?export=view&id=1qI3ephsJrl7jbyaHlQQqvo4_-7klQpd8)
 
 ## Pestaña Salir
 
