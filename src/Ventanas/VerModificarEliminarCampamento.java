@@ -161,12 +161,14 @@ public class VerModificarEliminarCampamento extends javax.swing.JFrame {
 
     private void bEliminarModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarModificarActionPerformed
         if(this.opcion==0){
-            Response respuesta = Main.EliminarCampamento(camp); 
-            if(!respuesta.isCorrecto()){
-                JOptionPane.showMessageDialog(null, respuesta.getMensajeError(),"", JOptionPane.ERROR_MESSAGE);
-            }else{
-                JOptionPane.showMessageDialog(null, "Se ha eliminado el campamento correctamente.");
-                Main.cerrarVerModificarEliminarCamp();
+            if(JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar el campamento?", "", JOptionPane.WARNING_MESSAGE) == 0){
+                Response respuesta = Main.EliminarCampamento(camp); 
+                if(!respuesta.isCorrecto()){
+                    JOptionPane.showMessageDialog(null, respuesta.getMensajeError(),"", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Se ha eliminado el campamento correctamente.");
+                    Main.cerrarVerModificarEliminarCamp();
+                }
             }
         }else if(opcion==1){
             Main.entrarAModificacionDeCampamento(camp);
