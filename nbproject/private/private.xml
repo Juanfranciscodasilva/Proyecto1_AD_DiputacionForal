@@ -13,5 +13,14 @@
         <group name="AD_DiputacionAlava">
             <file>file:/C:/Users/juan%20francisco/Desktop/Proyecto1_AD_DiputacionForal/src/BBDD/PersonasBD.java</file>
         </group>
+        <group name="Proyecto_AD_1">
+            <file>file:/C:/Users/9fdam05/Desktop/Proyecto1_AD_DiputacionForal/src/Ventanas/InscribirPersona.java</file>
+            <file>file:/C:/Users/9fdam05/Desktop/Proyecto1_AD_DiputacionForal/src/Ventanas/VPrincipal.java</file>
+            <file>file:/C:/Users/9fdam05/Desktop/Proyecto1_AD_DiputacionForal/src/Ventanas/RetirarPersona.java</file>
+            <file>file:/C:/Users/9fdam05/Desktop/Proyecto1_AD_DiputacionForal/src/BBDD/PersonasCampamentosBD.java</file>
+            <file>file:/C:/Users/9fdam05/Desktop/Proyecto1_AD_DiputacionForal/src/Ventanas/CrearPersona.java</file>
+            <file>file:/C:/Users/9fdam05/Desktop/Proyecto1_AD_DiputacionForal/src/BBDD/CampamentosBD.java</file>
+            <file>file:/C:/Users/9fdam05/Desktop/Proyecto1_AD_DiputacionForal/src/diputacionAlava/Main.java</file>
+        </group>
     </open-files>
 </project-private>

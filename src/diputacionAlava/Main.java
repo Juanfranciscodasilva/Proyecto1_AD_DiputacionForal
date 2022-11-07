@@ -32,10 +32,10 @@ public class Main {
     private static RetirarPersona vRetirarPersona;
 
     public static void main(String[] args) {
-//        vLogin = new IniciarSesion();
-//        vLogin.setVisible(true);
-        vPrincipal = new VPrincipal();
-        vPrincipal.setVisible(true);
+        vLogin = new IniciarSesion();
+        vLogin.setVisible(true);
+//        vPrincipal = new VPrincipal();
+//        vPrincipal.setVisible(true);
     }
     
     public static void CerrarPrograma(){
